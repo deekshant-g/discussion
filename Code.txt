@@ -7,7 +7,7 @@ https://practice.geeksforgeeks.org/problems/number-of-islands/1
 
 Celebrity problem
 https://leetcode.com/problems/find-the-town-judge/
-
+https://leetcode.com/problems/find-the-celebrity/description/   (Premium only)
 
 
 */
