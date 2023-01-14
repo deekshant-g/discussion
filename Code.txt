@@ -5,6 +5,9 @@ NUMBER OF ISLAND
 https://practice.geeksforgeeks.org/problems/find-the-number-of-islands/1
 https://practice.geeksforgeeks.org/problems/number-of-islands/1
 
+Celebrity problem
+https://leetcode.com/problems/find-the-town-judge/
+
 
 
 */
