@@ -1,4 +1,16 @@
 /*
+Samsung tire is about to launch. 
+Prior to its product launch, it will test the safety of tire.
+In order to launch the tire, the tire must pass N tests in total.
+Each test is constructed of inflate and deflate and has the following features.:
+Each test starts with inflate and then deflates.
+As long as all N test cases are executed, the test order can be randomly choosen.
+The maximum air pressure is K.
+The tire get damaged if initial pressure of the tire exceeds k or less than zero..
+Find the test order so that initial air pressure can be minimized. Else return -1;
+For example:
+
+
 PRACTICED QUESTIONS:
 NUMBER OF ISLAND
 14TH JAN
