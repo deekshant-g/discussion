@@ -1,0 +1,220 @@
+A shop need to display the advertisement 3 times a day.
+However, they only has 1 electric board to display the advertisement, hence they should select the time to display advertisements so that visitors can watch them as much as possible.
+When visitors watch advertisement, they can get points which calculated as below :
+1. Three Ads  have length L1, L2, L3 and the points a person can get after watched them P1, P2, P3.
+2. A visitor can get the point of a Ads  only when he/she watch the Ads  fully (from beginning to the end of that Ads )
+3. When a visitor watch more than one Ads  and also get the point for them, only the Ads  with highest point will be given to that person.
+4. Only one Ads  can be displayed on electric board at a time (But the next Ads  can be displayed right after the previous one ended)
+Given the length of each Ads L1, L2, L3 and the point gained for them P1, P2, P3, the arrival time of each visitor into the shop and the time duration that he/she stay in the shop, write a program to select advertisement display time so that as many points as possible can be given to visitors. Print out the total sum of points that the visitors can get.
+Ex: There are 7 visitors go to the shop with the arrival time and staying duration as below
+
+There are many way to arrange the display time, and the method above give us the maximum sum of points which visitors can get, so the answer in this case is 12.
+ 
+[Constraints]
+- The number of visitors N (1 ≤ N ≤ 50)
+- The arrival time Ai, the time duration Di of each visitor and the length of each Ads L1, L2, L3 are given as integers (1 ≤ Ai, Di, L1, L2, L3 ≤ 50)
+- Ai + Di ≤ 50
+- L1 + L2 + L3 ≤ 50
+- The starting time of an Ads : 1 ≤ starting time ≤ 50
+- P1, P2, P4 are integers (1 ≤ P1, P2, P3 ≤ 1000)
+ 
+[Input]
+The 1st line given T - the total number of TC (T ≤ 50)
+In each TC :
+ - The 1st line contains N, L1, L2, L3, P1, P2, P3 in this order
+ - The next N lines : each line gives the arrival time Ai and time duration Di of each visitor
+5                         // Number of test cases T=5
+7 1 2 3 1 2 3         // Test case 1 N=7, L1=1, L2=2, L3=3, P1=1, P2=2, P3=3
+2 2                       // A1 = 2, D1 = 2
+6 4                       // ...
+3 3
+7 2
+1 1
+2 1
+1 10
+4 3 2 1 6 4 3
+1 5
+1 3
+2 4
+2 2
+
+...
+
+ 
+
+[Output] Out put the maximum sum of points that visitors can get from watching advertisements.
+Case #1 12
+Case #2 18
+Case #3 17
+Case #4 16
+Case #5 17998
+
+//////////////////////////CODE HERE CODE HERE CODE HERE CODE HERE CODE HERE///////////////////////////////////
+
+#include<iostream>
+//#include<algorithm>
+using namespace std;
+int n;
+int a[50][2];
+int adv[3][2];
+int allocate[3][2];
+bool vis[3];
+int ans[50];
+ 
+int start = 1e8;
+int max_start = -1;
+int final_ans = 0;
+int fre = 1;
+void fun(int count)
+{ 
+    //if (count == 3)
+    //{
+        for (int i = 0; i < n; i++)
+        {
+            int user_at = a[i][0], user_et = a[i][1]+a[i][0];
+ 
+            //checking for adv no1 
+            int st = allocate[0][0], et = allocate[0][1];
+            if (st >= user_at && et <= user_et)
+            {
+                ans[i] = max(adv[0][1], ans[i]);
+            }
+            //checking for adv no 2
+            st = allocate[1][0];
+            et = allocate[1][1];
+            if (st >= user_at && et <= user_et)
+            {
+                ans[i] = max(adv[1][1], ans[i]);
+            }
+            st = allocate[2][0];
+            et = allocate[2][1];
+            if (st >= user_at && et <= user_et)
+            {
+                ans[i] = max(adv[2][1], ans[i]);
+            }
+ 
+        }
+         
+        int temp = 0;
+        for (int i = 0; i < n; i++)
+            temp+= ans[i];
+        final_ans = max(temp, final_ans);
+         
+     
+        for (int k = 0; k < n; k++)
+        {
+            ans[k] = 0;
+        }
+     
+//  }
+ 
+     
+    if (count >= 3)return;
+ 
+     
+         
+    for (int i = 0; i < 3; i++)
+    {
+ 
+        if (!vis[i])
+        {
+            vis[i] = true;
+         for (int st = start; st <= max_start - adv[i][0]; st++)
+         {
+             bool flag = true;
+             int adv_st = st;
+             int adv_et = st + adv[i][0];
+             for (int k = 0; k < 3; k++)
+             {
+                 if (allocate[k][0] != -1 && allocate[k][1] != -1)
+                 {
+                     if (adv_et <= allocate[k][0])
+                         flag = true;
+                     else if (adv_st >= allocate[k][1])
+                         flag = true;
+                     else
+                     {
+                         flag = false;
+                         break;
+                     }
+                 }
+ 
+             }
+             if (flag)
+             {  
+                 
+                 allocate[i][0] = st;
+                 allocate[i][1] = st + adv[i][0];
+                 fun(count+1);
+                 allocate[i][0] = -1;
+                 allocate[i][1] = -1;
+              }
+         
+            }
+            vis[i] = false;
+        }
+         
+    }
+}
+int main(int argc, char** argv)
+{
+    int test_case;
+    int T;
+     
+ 
+    //freopen("input.txt", "r", stdin);
+    cin >> T;
+ 
+     
+    for (test_case = 1; test_case <= T; ++test_case)
+    {
+        cin >> n;
+        for (int i = 0; i < 3; i++)
+            cin >> adv[i][0];
+        for (int i = 0; i < 3; i++)
+            cin >> adv[i][1];
+ 
+        start = 1e8;
+        max_start = -1;
+         
+        for (int i = 0; i < n; i++)
+        {
+            ans[i] = 0;
+            cin >> a[i][0] >> a[i][1];
+            start=min(a[i][0], start);
+            max_start = max(a[i][0] + a[i][1], max_start);
+        }
+    //  max_start = 50;
+        vis[0] = false;
+        vis[1] = false;
+        vis[2] = false;
+        final_ans = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            allocate[i][0] = -1;
+            allocate[i][1] = -1;
+        }
+ 
+        for (int i = 0; i < 3; i++)
+        {    
+            for (int k = 0; k < n; k++)
+            {
+                ans[k] = 0;
+            }
+            vis[i] = true;
+             
+            for (int st = start; st <= max_start-adv[i][0]; st++)
+            {
+                allocate[i][0] = st;
+                allocate[i][1] = st + adv[i][0];
+                fun(1);
+                allocate[i][0] = -1;
+                allocate[i][1] = -1;
+            }
+            vis[i] = false;
+        }
+         
+         
+        cout << "Case #" << test_case << "\n" << final_ans << endl;
+    }
+   
