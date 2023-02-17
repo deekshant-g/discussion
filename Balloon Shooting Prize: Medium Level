@@ -1,0 +1,115 @@
+* Ballons ( N count) are placed in a sequence
+* You have to Shoot  K Balloons
+* Constraints
+      N >= 3 && N <= 15
+      K >= 2 && K <= 7
+
+
+
+* Each Balloon has a value hidden in it called as Ballon_Value.
+
+
+
+* The order of shooting determines the accumulated score value.
+   A Prize Factor is associated with each shot balloon in order of the shooting.
+   So for K Balloons shot, there will be pre-specified Prize factor K values given (in order of the shot balloons).
+
+
+
+* Each Balloon has a value hidden in it.
+* Constraints:
+     Ballon_Value >= 1  and Ballon_Value <= 999
+     Prize_Factor  >= -999 and Prize_Factor <= 999
+
+
+
+* The initial key score function for a given Test is calculated like below, based on shot balloons:-
+
+
+
+      Initial Key Score = Sum of ( Balloon_Value * PrizeFactor );   // In order of shooting of balloons.
+
+
+
+* Final prize evaluation function is used to randomize and keep the suspense and excitement for final winner identifying, with below function:
+
+
+
+// C or Java style calculation for Final Prize Value based on key score obtained from balloon shooting
+
+static int EvalutatePrize(int initialScore)
+
+
+{
+
+    int finalPrize = 0;
+
+
+    int val1 = initialScore % 100;
+
+    int val2 = (initialScore / 100) % 100;
+
+    int val3 = (initialScore / 10000) % 100;
+
+    int val4 = (initialScore / 1000000) % 100;
+
+
+
+
+    finalPrize = (1+val1) * (1+val4) + (1+val3) * (1+val4);
+
+
+    if (finalPrize < 0)
+
+
+        finalPrize = 0;
+
+
+    return finalPrize;
+
+
+}
+
+
+
+
+* If final Prize value is negative then no prize is given and value of Prize is considered as 0 (as shown in above final Prize calculation function).
+
+
+
+* Objective:  Maximize the final Prize Value by selecting the order of shooting K balloons out of given N balloons.
+
+
+
+* Sample Input
+3  // -> number of TCs
+3 2    // N= 3, K= 2
+1 2 3      // Balloon values   ( N Count)
+100 200   // Prize factor values (k count)
+4 3
+400 200 300 100
+5 1 2
+5 3
+1 2 3 4 5
+3 -2 1
+5 3
+19 23 45 99 87
+-100 200 300
+5 3
+963 487 645 571 185
+17 123 512       
+
+
+
+
+* Sample Output:
+
+Case #1: 2
+Case #2: 2
+Case #3: 19
+Case #4: 6
+Case #5: 158
+Case #6: 192
+
+
+//write code from scratch
